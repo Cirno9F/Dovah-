@@ -1,0 +1,3 @@
+[submodule "Dovah/vendor/spdlog"]
+	path = Dovah/vendor/spdlog
+	url = https://github.com/gabime/spdlog

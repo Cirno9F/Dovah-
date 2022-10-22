@@ -1,0 +1,10 @@
+/bin
+/bin-int
+/Dovah/*.filters
+/Dovah/*.user
+/Dovah/*.vcxproj
+/Sandbox/*.vcxproj
+/Sandbox/*.user
+/.vs
+/*.sln
+/vendor
