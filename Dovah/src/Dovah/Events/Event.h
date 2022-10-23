@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/Dovah/Core.h"
+#include "Dovah/Core.h"
 
 #include <string>
 #include <functional>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "Dovah/Events/Event.h"
 
 namespace Dovah
 {
