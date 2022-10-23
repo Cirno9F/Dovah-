@@ -6,8 +6,6 @@ extern Dovah::Application*  Dovah::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	printf("Dovah Engine\n");
-
 	Dovah::Log::Init();
 	DOVAH_CORE_WARN("Initialized Log!");
 	int a = 5;

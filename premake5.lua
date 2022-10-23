@@ -18,6 +18,9 @@ project "Dovah"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "dovahpch.h"
+	pchsource "Dovah/src/dovahpch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",

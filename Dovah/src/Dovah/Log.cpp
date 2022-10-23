@@ -1,3 +1,4 @@
+#include "dovahpch.h"
 #include "Log.h"
 
 namespace Dovah {

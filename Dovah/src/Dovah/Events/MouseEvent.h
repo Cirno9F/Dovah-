@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Dovah
 {
 	class DOVAH_API MouseMovedEvent : public Event
