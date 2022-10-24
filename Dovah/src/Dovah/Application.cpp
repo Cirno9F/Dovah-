@@ -4,23 +4,27 @@
 #include "Dovah/Events/ApplicationEvent.h"
 #include "Dovah/Log.h"
 
+#include "GLFW/glfw3.h"
+
 namespace Dovah
 {
-	Application::Application() {}
-	Application::~Application() {}
+	Application::Application() 
+	{
+		m_Window = std::unique_ptr<Window>(Window::Create());
+	}
+
+	Application::~Application() 
+	{
+
+	}
 
 	void Application::Run()
-	{
-		WindowResizeEvent e(1280, 720);
-		
-		if (e.IsInCategory(EventCategoryApplication))
+	{		
+		while (m_Running)
 		{
-			DOVAH_TRACE(e);
-		}
-		
-		while (true)
-		{
-
+			glClearColor(1, 0, 1, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			m_Window -> OnUpdate();
 		}
 	}
 }
