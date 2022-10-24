@@ -10,6 +10,12 @@ workspace "Dovah"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Dovah/vendor/GLFW/include"
+
+include "Dovah/vendor/GLFW"
+
 project "Dovah"
 	location "Dovah"
 	kind "SharedLib"
@@ -30,7 +36,14 @@ project "Dovah"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
