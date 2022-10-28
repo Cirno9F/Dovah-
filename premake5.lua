@@ -62,14 +62,17 @@ project "Dovah"
 	
 	filter "configurations:Debug"
 		defines "DOVAH_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "DOVAH_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "DOVAH_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"
@@ -108,12 +111,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "DOVAH_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "DOVAH_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "DOVAH_DIST"
+		buildoptions "/MD"
 		optimize "On"
