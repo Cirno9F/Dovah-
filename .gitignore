@@ -9,3 +9,7 @@
 /*.sln
 /vendor
 /Sandbox/.vs
+/Dovah/vendor/Glad/bin
+/Dovah/vendor/Glad/bin-int
+/Dovah/vendor/Glad/Glad.vcxproj
+/Dovah/vendor/Glad/Glad.vcxproj.filters

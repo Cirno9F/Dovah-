@@ -13,8 +13,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Dovah/vendor/GLFW/include"
+IncludeDir["Glad"] = "Dovah/vendor/Glad/include"
 
 include "Dovah/vendor/GLFW"
+include "Dovah/vendor/Glad"
 
 project "Dovah"
 	location "Dovah"
@@ -37,12 +39,14 @@ project "Dovah"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -53,7 +57,8 @@ project "Dovah"
 		defines
 		{
 			"DOVAH_BUILD_DLL",
-			"DOVAH_PLATFORM_WINDOWS"
+			"DOVAH_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE"
 		}
 		postbuildcommands
 		{
