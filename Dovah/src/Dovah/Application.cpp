@@ -46,7 +46,7 @@ namespace Dovah
 
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
 
-		DOVAH_CORE_TRACE("{0}", e);
+		//DOVAH_CORE_TRACE("{0}", e);
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
@@ -73,9 +73,6 @@ namespace Dovah
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
-
-			auto [x, y] = Input::GetMousePosition();
-			DOVAH_CORE_TRACE("{0},{1}", x, y);
 
 			m_Window -> OnUpdate();
 		}
