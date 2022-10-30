@@ -25,7 +25,7 @@ class Sandbox : public Dovah::Application
 public:
 	Sandbox() 
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
 		PushOverlay(new Dovah::ImGuiLayer());
 	}
 	~Sandbox() {}
