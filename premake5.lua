@@ -1,5 +1,6 @@
 workspace "Dovah"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -19,6 +20,13 @@ IncludeDir["ImGui"] = "Dovah/vendor/imgui"
 include "Dovah/vendor/GLFW"
 include "Dovah/vendor/Glad"
 include "Dovah/vendor/imgui"
+
+--group "Dependencies"
+	--include "Dovah/vendor/GLFW"
+	--include "Dovah/vendor/Glad"
+	--include "Dovah/vendor/imgui"
+--group ""
+
 
 project "Dovah"
 	location "Dovah"
