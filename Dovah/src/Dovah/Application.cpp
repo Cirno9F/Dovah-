@@ -7,7 +7,6 @@
 
 #include "Input.h"
 
-
 namespace Dovah
 {
 #define BIND_EVENT_FN(x) std::bind(&Application::x,this,std::placeholders::_1)

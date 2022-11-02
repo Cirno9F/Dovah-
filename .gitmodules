@@ -7,3 +7,6 @@
 [submodule "Dovah/vendor/imgui"]
 	path = Dovah/vendor/imgui
 	url = https://github.com/Cirno9F/imgui.git
+[submodule "Dovah/vendor/glm"]
+	path = Dovah/vendor/glm
+	url = https://github.com/Groovounet/glm.git

@@ -16,6 +16,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Dovah/vendor/GLFW/include"
 IncludeDir["Glad"] = "Dovah/vendor/Glad/include"
 IncludeDir["ImGui"] = "Dovah/vendor/imgui"
+IncludeDir["glm"] = "Dovah/vendor/glm"
 
 include "Dovah/vendor/GLFW"
 include "Dovah/vendor/Glad"
@@ -44,6 +45,8 @@ project "Dovah"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
 	}
 
 	includedirs
@@ -52,7 +55,8 @@ project "Dovah"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -114,7 +118,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Dovah/vendor/spdlog/include",
-		"Dovah/src"
+		"Dovah/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links
