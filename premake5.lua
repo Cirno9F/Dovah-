@@ -56,7 +56,7 @@ project "Dovah"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
 	}
 
 	links
@@ -75,7 +75,7 @@ project "Dovah"
 		{
 			"DOVAH_BUILD_DLL",
 			"DOVAH_PLATFORM_WINDOWS",
-			"GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
 		}
 		postbuildcommands
 		{
@@ -119,12 +119,13 @@ project "Sandbox"
 	{
 		"Dovah/vendor/spdlog/include",
 		"Dovah/src",
-		"%{IncludeDir.glm}"
+		"Dovah/vendor",
+		"%{IncludeDir.glm}",
 	}
 
 	links
 	{
-		"Dovah"
+		"Dovah",
 	}
 
 	filter "system:windows"

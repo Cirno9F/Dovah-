@@ -5,6 +5,7 @@
 		#define DOVAH_API _declspec(dllexport)
 	#else	
 		#define DOVAH_API _declspec(dllimport)
+        #define IMGUI_API _declspec(dllimport)
 	#endif
 #else
 	#error Doavh only support Windows!

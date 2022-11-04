@@ -1,5 +1,7 @@
 #include <Dovah.h>
 
+#include "imgui/imgui.h"
+
 class ExampleLayer :public Dovah::Layer
 {
 public:
@@ -14,6 +16,13 @@ public:
 
 		if (Dovah::Input::IsKeyPressed(DOVAH_KEY_TAB))
 			DOVAH_TRACE("Tab key is pressed! (poll)");
+	}
+
+	void OnImGuiRender() override
+	{
+		ImGui::Begin("ExampleLayer");
+		ImGui::Text("This is example layer window!");
+		ImGui::End();
 	}
 
 	void OnEvent(Dovah::Event& event) override
@@ -38,7 +47,6 @@ public:
 	Sandbox() 
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Dovah::ImGuiLayer());
 	}
 	~Sandbox() {}
 };
