@@ -31,9 +31,10 @@ include "Dovah/vendor/imgui"
 
 project "Dovah"
 	location "Dovah"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -67,9 +68,12 @@ project "Dovah"
 		"opengl32.lib"
 	}
 
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
 	filter "system:windows"
-		cppdialect "C++17"
-		--staticruntime "On"
 		systemversion "latest"		
 		defines
 		{
@@ -77,34 +81,28 @@ project "Dovah"
 			"DOVAH_PLATFORM_WINDOWS",
 			"GLFW_INCLUDE_NONE",
 		}
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" ..outputdir.. "/Sandbox")
-		}
 	
 	filter "configurations:Debug"
 		defines "DOVAH_DEBUG"
-		--buildoptions "/MDd"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "DOVAH_RELEASE"
-		--buildoptions "/MD"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "DOVAH_DIST"
-		--buildoptions "/MD"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -129,8 +127,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		--staticruntime "On"
 		systemversion "latest"		
 		defines
 		{
@@ -139,18 +135,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "DOVAH_DEBUG"
-		--buildoptions "/MDd"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "DOVAH_RELEASE"
-		--buildoptions "/MD"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "DOVAH_DIST"
-		--buildoptions "/MD"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

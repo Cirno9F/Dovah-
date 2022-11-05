@@ -1,12 +1,15 @@
 #pragma once
 
 #ifdef DOVAH_PLATFORM_WINDOWS
+#if HZ_DYNAMIC_LINK
 	#ifdef DOVAH_BUILD_DLL
 		#define DOVAH_API _declspec(dllexport)
 	#else	
 		#define DOVAH_API _declspec(dllimport)
-        #define IMGUI_API _declspec(dllimport)
 	#endif
+#else
+	#define DOVAH_API
+#endif
 #else
 	#error Doavh only support Windows!
 #endif
