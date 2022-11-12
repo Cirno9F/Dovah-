@@ -7,6 +7,8 @@
 
 #include "Dovah/ImGui/ImGuiLayer.h"
 
+#include "Dovah/Renderer/Shader.h"
+
 namespace Dovah
 {
 	class DOVAH_API Application
@@ -33,6 +35,7 @@ namespace Dovah
 		LayerStack m_LayerStack;
 
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 	private:
 		static Application* s_Instance;
 	};
