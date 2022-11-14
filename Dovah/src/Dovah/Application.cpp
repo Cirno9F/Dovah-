@@ -24,34 +24,35 @@ namespace Dovah
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
+		//triangle
 		m_VertexArray.reset(VertexArray::Create());
-
 		float vertices[3 * 7] = {
 			-0.5f,-0.5f,0.0f, 0.8f,0.2f,0.8f,1.0f,
 			 0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
 			 0.0f, 0.5f,0.0f, 0.8f,0.8f,0.2f,1.0f,
 		};
-
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		std::shared_ptr<VertexBuffer> triangleVB;
+		triangleVB.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		BufferLayout layout = {
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float4, "a_Color" },
 			//{ ShaderDataType::Float3, "a_Normal" }
 		};
-		m_VertexBuffer->SetLayout(layout);
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+		triangleVB->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(triangleVB);
 
 		uint32_t indices[3] = { 0,1,2 };
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices)/sizeof(uint32_t)));
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+		std::shared_ptr<IndexBuffer> triangleIB;
+		triangleIB.reset(IndexBuffer::Create(indices, sizeof(indices)/sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(triangleIB);
 
-
+		//square
 		m_SquareVA.reset(VertexArray::Create());
 		float squareVertices[4 * 7] = {
-			-0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
-			 0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
-			 0.5f, 0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
-			-0.5f, 0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
+			-0.75f,-0.75f,0.0f, 0.2f,0.3f,0.8f,1.0f,
+			 0.75f,-0.75f,0.0f, 0.2f,0.3f,0.8f,1.0f,
+			 0.75f, 0.75f,0.0f, 0.2f,0.3f,0.8f,1.0f,
+			-0.75f, 0.75f,0.0f, 0.2f,0.3f,0.8f,1.0f,
 		};
 		std::shared_ptr<VertexBuffer> squareVB;
 		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
@@ -153,7 +154,7 @@ namespace Dovah
 
 			m_Shader->Bind();
 			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
