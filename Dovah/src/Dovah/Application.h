@@ -11,6 +11,8 @@
 #include "Dovah/Renderer/Buffer.h"
 #include "Dovah/Renderer/VertexArray.h"
 
+#include "Dovah/Renderer/OrthographicCamera.h"
+
 namespace Dovah
 {
 	class DOVAH_API Application
@@ -39,6 +41,8 @@ namespace Dovah
 		std::shared_ptr<Shader> m_Shader;
 		std::shared_ptr<VertexArray> m_VertexArray;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 	private:
 		static Application* s_Instance;
 	};
