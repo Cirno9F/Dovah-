@@ -1,8 +1,12 @@
 #include <Dovah.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include "glm/gtc/type_ptr.hpp"
+
 
 class ExampleLayer :public Dovah::Layer
 {
@@ -79,15 +83,18 @@ public:
 			in vec3 v_Position;
 			in vec4 v_Color;	
 
+			uniform vec4 u_Color;
+
 			void main()
 			{
-				color = vec4(v_Position + 0.5,1.0);
-				color = v_Color;
+				//color = vec4(v_Position + 0.5, 1.0);
+				//color = v_Color;
+				color = mix(v_Color, u_Color, u_Color.a);
 			}
 
 		)";
 
-		m_Shader.reset(new Dovah::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Dovah::Shader::Create(vertexSrc, fragmentSrc));
 	}
 
 	void OnUpdate(Dovah::Timestep ts) override
@@ -128,6 +135,15 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
+		//Dovah::MaterialRef material = new Dovah::Material(m_Shader);
+		//Dovah::MaterialInstanceRef mi = new Dovah::MaterialInstance(material);
+		//
+		//mi->SetValue("u_Color", redColor);
+		//mi->SetTexture("u_AlbedoMap", texture);
+		//squareMesh->SetMaterial(mi);
+
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_Shader)->UploadUniformFloat4("u_Color", m_SquareColor);
+
 		for (int y = -5; y < 5; y++)
 		{
 			for (int x = -5; x < 5; x++)
@@ -138,6 +154,8 @@ public:
 			}
 		}
 
+		glm::vec4 transparentColor(0.2f, 0.3f, 0.8f, 0.0f);
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_Shader)->UploadUniformFloat4("u_Color", transparentColor);
 		Dovah::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Dovah::Renderer::EndScene();
@@ -145,7 +163,9 @@ public:
 
 	void OnImGuiRender() override
 	{
-
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+		ImGui::End();
 	}
 
 	void OnEvent(Dovah::Event& event) override
@@ -181,6 +201,7 @@ private:
 
 	glm::vec3 m_SquarePosition = glm::vec3(0.0f);
 	float m_SquareMoveSpeed = 1.0f;
+	glm::vec4 m_SquareColor = glm::vec4(0.2f, 0.3f, 0.8f, 1.0f);
 };
 
 class Sandbox : public Dovah::Application
