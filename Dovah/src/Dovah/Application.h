@@ -5,6 +5,8 @@
 #include "Dovah/Events/Event.h"
 #include "Dovah/Events/ApplicationEvent.h"
 
+#include "Dovah/Core/Timestep.h"
+
 #include "Dovah/ImGui/ImGuiLayer.h"
 
 namespace Dovah
@@ -26,12 +28,12 @@ namespace Dovah
 		inline Window& GetWindow() { return *m_Window; }
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
-
+	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-
+		float m_LastFrameTime = 0;
 	private:
 		static Application* s_Instance;
 	};

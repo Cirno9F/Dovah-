@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Dovah/Core.h"
+#include "Dovah/Core/Timestep.h"
 #include "Dovah/Events/Event.h"
 
 namespace Dovah
@@ -13,7 +14,7 @@ namespace Dovah
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 
