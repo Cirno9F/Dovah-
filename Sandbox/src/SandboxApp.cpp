@@ -2,6 +2,8 @@
 
 #include "imgui/imgui.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 class ExampleLayer :public Dovah::Layer
 {
 public:
@@ -33,10 +35,10 @@ public:
 		//square
 		m_SquareVA.reset(Dovah::VertexArray::Create());
 		float squareVertices[4 * 7] = {
-			-0.75f,-0.75f,0.0f, 0.2f,0.3f,0.8f,1.0f,
-			 0.75f,-0.75f,0.0f, 0.2f,0.3f,0.8f,1.0f,
-			 0.75f, 0.75f,0.0f, 0.2f,0.3f,0.8f,1.0f,
-			-0.75f, 0.75f,0.0f, 0.2f,0.3f,0.8f,1.0f,
+			-0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
+			 0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
+			 0.5f, 0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
+			-0.5f, 0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
 		};
 		std::shared_ptr<Dovah::VertexBuffer> squareVB;
 		squareVB.reset(Dovah::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
@@ -58,12 +60,13 @@ public:
 			out vec4 v_Color;		
 
 			uniform mat4 u_ViewProjection;		
+			uniform mat4 u_Transform;		//Model Matrix
 
 			void main()
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -105,6 +108,16 @@ public:
 		if (Dovah::Input::IsKeyPressed(DOVAH_KEY_D))
 			m_CameraRotation -= m_CameraRotationSpeed * ts;
 
+
+		if (Dovah::Input::IsKeyPressed(DOVAH_KEY_J))
+			m_SquarePosition.x -= m_SquareMoveSpeed * ts;
+		else if (Dovah::Input::IsKeyPressed(DOVAH_KEY_L))
+			m_SquarePosition.x += m_SquareMoveSpeed * ts;
+		if (Dovah::Input::IsKeyPressed(DOVAH_KEY_K))
+			m_SquarePosition.y -= m_SquareMoveSpeed * ts;
+		else if (Dovah::Input::IsKeyPressed(DOVAH_KEY_I))
+			m_SquarePosition.y += m_SquareMoveSpeed * ts;
+
 		Dovah::RenderCommand::SetClearColor(glm::vec4{ 0.1f,0.1f,0.1f,1 });
 		Dovah::RenderCommand::Clear();
 
@@ -113,7 +126,18 @@ public:
 
 		Dovah::Renderer::BeginScene(m_Camera);
 
-		Dovah::Renderer::Submit(m_Shader, m_SquareVA);
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		for (int y = -5; y < 5; y++)
+		{
+			for (int x = -5; x < 5; x++)
+			{
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				Dovah::Renderer::Submit(m_Shader, m_SquareVA, transform);
+			}
+		}
+
 		Dovah::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Dovah::Renderer::EndScene();
@@ -154,6 +178,9 @@ private:
 	float m_CameraMoveSpeed = 1.0f;
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 10.0f;
+
+	glm::vec3 m_SquarePosition = glm::vec3(0.0f);
+	float m_SquareMoveSpeed = 1.0f;
 };
 
 class Sandbox : public Dovah::Application
