@@ -21,7 +21,7 @@ public:
 			 0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
 			 0.0f, 0.5f,0.0f, 0.8f,0.8f,0.2f,1.0f,
 		};
-		std::shared_ptr<Dovah::VertexBuffer> triangleVB;
+		Dovah::Ref<Dovah::VertexBuffer> triangleVB;
 		triangleVB.reset(Dovah::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Dovah::BufferLayout layout = {
 			{ Dovah::ShaderDataType::Float3, "a_Position" },
@@ -32,7 +32,7 @@ public:
 		m_VertexArray->AddVertexBuffer(triangleVB);
 
 		uint32_t indices[3] = { 0,1,2 };
-		std::shared_ptr<Dovah::IndexBuffer> triangleIB;
+		Dovah::Ref<Dovah::IndexBuffer> triangleIB;
 		triangleIB.reset(Dovah::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(triangleIB);
 
@@ -44,13 +44,13 @@ public:
 			 0.5f, 0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
 			-0.5f, 0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
 		};
-		std::shared_ptr<Dovah::VertexBuffer> squareVB;
+		Dovah::Ref<Dovah::VertexBuffer> squareVB;
 		squareVB.reset(Dovah::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		squareVB->SetLayout(layout);
 		m_SquareVA->AddVertexBuffer(squareVB);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 0, 2, 3 };
-		std::shared_ptr<Dovah::IndexBuffer> squareIB;
+		Dovah::Ref<Dovah::IndexBuffer> squareIB;
 		squareIB.reset(Dovah::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -189,9 +189,9 @@ public:
 	}
 
 private:
-	std::shared_ptr<Dovah::Shader> m_Shader;
-	std::shared_ptr<Dovah::VertexArray> m_VertexArray;
-	std::shared_ptr<Dovah::VertexArray> m_SquareVA;
+	Dovah::Ref<Dovah::Shader> m_Shader;
+	Dovah::Ref<Dovah::VertexArray> m_VertexArray;
+	Dovah::Ref<Dovah::VertexArray> m_SquareVA;
 
 	Dovah::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
