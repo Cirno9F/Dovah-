@@ -128,13 +128,12 @@ public:
 				
 			in vec2 v_Texcoord;	
 
+			uniform vec4 u_Color;
 			uniform sampler2D u_Texture;
 
 			void main()
 			{
-				//color = vec4(v_Texcoord,0.0,1.0);
-				color = texture(u_Texture, v_Texcoord);
-				color = vec4(color.rgb,1.0);
+				color = texture(u_Texture, v_Texcoord) * u_Color;
 			}
 
 		)";
@@ -206,7 +205,14 @@ public:
 		}
 
 		m_Texture2D->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->UploadUniformFloat4("u_Color", m_QuadColor0);
 	    Dovah::Renderer::Submit(m_TextureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+		m_Texture2D->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->UploadUniformFloat4("u_Color", m_QuadColor1);
+		Dovah::Renderer::Submit(m_TextureShader, m_VertexArray, glm::translate(glm::mat4(1.0f), glm::vec3(0.5f))  * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		Dovah::Renderer::EndScene();
 	}
@@ -215,6 +221,8 @@ public:
 	{
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+		ImGui::ColorEdit4("Quad Color 0", glm::value_ptr(m_QuadColor0));
+		ImGui::ColorEdit4("Quad Color 1", glm::value_ptr(m_QuadColor1));
 		ImGui::End();
 	}
 
@@ -242,6 +250,8 @@ private:
 	glm::vec3 m_SquarePosition = glm::vec3(0.0f);
 	float m_SquareMoveSpeed = 1.0f;
 	glm::vec4 m_SquareColor = glm::vec4(0.2f, 0.3f, 0.8f, 1.0f);
+	glm::vec4 m_QuadColor0 = glm::vec4(1.08f, 1.0f, 1.0f, 1.0f);
+	glm::vec4 m_QuadColor1 = glm::vec4(0.2f, 0.3f, 0.8f, 1.0f);
 };
 
 class Sandbox : public Dovah::Application
