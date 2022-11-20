@@ -17,6 +17,7 @@ IncludeDir["GLFW"] = "Dovah/vendor/GLFW/include"
 IncludeDir["Glad"] = "Dovah/vendor/Glad/include"
 IncludeDir["ImGui"] = "Dovah/vendor/imgui"
 IncludeDir["glm"] = "Dovah/vendor/glm"
+IncludeDir["stb_image"] = "Dovah/vendor/stb_image"
 
 include "Dovah/vendor/GLFW"
 include "Dovah/vendor/Glad"
@@ -46,6 +47,8 @@ project "Dovah"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+	    "%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 	}
@@ -58,6 +61,7 @@ project "Dovah"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links

@@ -14,27 +14,28 @@ public:
 	ExampleLayer()
 		:Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
 	{
-		//triangle
+		//Quad
 		m_VertexArray.reset(Dovah::VertexArray::Create());
-		float vertices[3 * 7] = {
-			-0.5f,-0.5f,0.0f, 0.8f,0.2f,0.8f,1.0f,
-			 0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
-			 0.0f, 0.5f,0.0f, 0.8f,0.8f,0.2f,1.0f,
-		};
+		float vertices[4 * 5] = {
+			-0.5f,-0.5f,0.0f, 0.0f,0.0f,
+			 0.5f,-0.5f,0.0f, 1.0f,0.0f,
+			 0.5f, 0.5f,0.0f, 1.0f,1.0f,
+			-0.5f, 0.5f,0.0f, 0.0f,1.0f,
+		};										    
 		Dovah::Ref<Dovah::VertexBuffer> triangleVB;
 		triangleVB.reset(Dovah::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Dovah::BufferLayout layout = {
 			{ Dovah::ShaderDataType::Float3, "a_Position" },
-			{ Dovah::ShaderDataType::Float4, "a_Color" },
-			//{ ShaderDataType::Float3, "a_Normal" }
+			{ Dovah::ShaderDataType::Float2, "a_TexCoord" }
 		};
 		triangleVB->SetLayout(layout);
 		m_VertexArray->AddVertexBuffer(triangleVB);
 
-		uint32_t indices[3] = { 0,1,2 };
+		uint32_t indices[6] = { 0, 1, 2, 0, 2, 3 };
 		Dovah::Ref<Dovah::IndexBuffer> triangleIB;
 		triangleIB.reset(Dovah::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(triangleIB);
+
 
 		//square
 		m_SquareVA.reset(Dovah::VertexArray::Create());
@@ -46,7 +47,11 @@ public:
 		};
 		Dovah::Ref<Dovah::VertexBuffer> squareVB;
 		squareVB.reset(Dovah::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		squareVB->SetLayout(layout);
+		Dovah::BufferLayout squareLayout = {
+			{ Dovah::ShaderDataType::Float3, "a_Position" },
+			{ Dovah::ShaderDataType::Float4, "a_Color" },
+		};
+		squareVB->SetLayout(squareLayout);
 		m_SquareVA->AddVertexBuffer(squareVB);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 0, 2, 3 };
@@ -87,14 +92,59 @@ public:
 
 			void main()
 			{
-				//color = vec4(v_Position + 0.5, 1.0);
-				//color = v_Color;
-				color = mix(v_Color, u_Color, u_Color.a);
+				color = u_Color;
 			}
 
 		)";
 
-		m_Shader.reset(Dovah::Shader::Create(vertexSrc, fragmentSrc));
+		m_FlatColorShader.reset(Dovah::Shader::Create(vertexSrc, fragmentSrc));
+
+
+
+
+		std::string textureShaderVertexSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_Texcoord;
+
+			out vec2 v_Texcoord;		
+
+			uniform mat4 u_ViewProjection;		
+			uniform mat4 u_Transform;		//Model Matrix
+
+			void main()
+			{
+				v_Texcoord = a_Texcoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+
+		)";
+
+		std::string textureShaderFragmentSrc = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+				
+			in vec2 v_Texcoord;	
+
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				//color = vec4(v_Texcoord,0.0,1.0);
+				color = texture(u_Texture, v_Texcoord);
+				color = vec4(color.rgb,1.0);
+			}
+
+		)";
+
+		m_TextureShader.reset(Dovah::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
+
+		m_Texture2D = Dovah::Texture2D::Create("assets/textures/Checkerboard.png");
+
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Dovah::Timestep ts) override
@@ -142,21 +192,21 @@ public:
 		//mi->SetTexture("u_AlbedoMap", texture);
 		//squareMesh->SetMaterial(mi);
 
-		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_Shader)->UploadUniformFloat4("u_Color", m_SquareColor);
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_FlatColorShader)->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor);
 
-		for (int y = -5; y < 5; y++)
+		for (int y = -10; y < 10; y++)
 		{
-			for (int x = -5; x < 5; x++)
+			for (int x = -10; x < 10; x++)
 			{
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				Dovah::Renderer::Submit(m_Shader, m_SquareVA, transform);
+				Dovah::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
 		}
 
-		glm::vec4 transparentColor(0.2f, 0.3f, 0.8f, 0.0f);
-		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_Shader)->UploadUniformFloat4("u_Color", transparentColor);
-		Dovah::Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture2D->Bind();
+	    Dovah::Renderer::Submit(m_TextureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		Dovah::Renderer::EndScene();
 	}
@@ -170,28 +220,18 @@ public:
 
 	void OnEvent(Dovah::Event& event) override
 	{
-		//Dovah::EventDispatcher dispatcher(event);
-		//dispatcher.Dispatch<Dovah::KeyPressedEvent>(DOVAH_BIND_EVENT_FN(ExampleLayer::OnKeyPressedEvent));
 	}
 
 	bool OnKeyPressedEvent(Dovah::KeyPressedEvent& event)
 	{
-		//if (event.GetKeyCode() == DOVAH_KEY_LEFT)
-		//	m_CameraPosition.x -= m_CameraSpeed;
-		//if (event.GetKeyCode() == DOVAH_KEY_RIGHT)
-		//	m_CameraPosition.x += m_CameraSpeed;
-		//if (event.GetKeyCode() == DOVAH_KEY_DOWN)
-		//	m_CameraPosition.y -= m_CameraSpeed;
-		//if (event.GetKeyCode() == DOVAH_KEY_UP)
-		//	m_CameraPosition.y += m_CameraSpeed;
-		//
-		//return false;
 	}
 
 private:
-	Dovah::Ref<Dovah::Shader> m_Shader;
 	Dovah::Ref<Dovah::VertexArray> m_VertexArray;
 	Dovah::Ref<Dovah::VertexArray> m_SquareVA;
+	
+	Dovah::Ref<Dovah::Shader> m_FlatColorShader, m_TextureShader;
+	Dovah::Ref<Dovah::Texture2D> m_Texture2D;
 
 	Dovah::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;

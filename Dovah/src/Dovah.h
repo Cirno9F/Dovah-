@@ -20,9 +20,11 @@
 
 #include "Dovah/Renderer/Shader.h"
 #include "Dovah/Renderer/Buffer.h"
+#include "Dovah/Renderer/Texture.h"
 #include "Dovah/Renderer/VertexArray.h"
 
 #include "Dovah/Renderer/OrthographicCamera.h"
+
 //-------------------------------------------
 
 //---Entry Point-----------------------------
