@@ -12,6 +12,11 @@ namespace Dovah
 			s_RendererAPI->Init();
 		}
 
+		inline static void SetViewport(uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+		{
+			s_RendererAPI->SetViewport(x, y, w, h);
+		}
+
 		inline static void SetClearColor(const glm::vec4& color)
 		{
 			s_RendererAPI->SetClearColor(color);
