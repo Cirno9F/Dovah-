@@ -11,6 +11,7 @@
 #include "Dovah/Input.h"
 #include "Dovah/MouseButtonCodes.h"
 #include "Dovah/KeyCodes.h"
+#include "Dovah/OrthographicCameraController.h"
 
 #include "Dovah/ImGui/ImGuiLayer.h"
 
