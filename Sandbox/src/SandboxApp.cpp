@@ -7,7 +7,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm/gtc/type_ptr.hpp"
 
-
 class ExampleLayer :public Dovah::Layer
 {
 public:
@@ -97,14 +96,12 @@ public:
 
 		)";
 
-		m_FlatColorShader.reset(Dovah::Shader::Create(vertexSrc, fragmentSrc));
-
-
-		m_TextureShader.reset(Dovah::Shader::Create("assets/shaders/Texture.glsl"));
+		m_FlatColorShader = Dovah::Shader::Create("FlatColor", vertexSrc, fragmentSrc);
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 		m_Texture2D = Dovah::Texture2D::Create("assets/textures/Checkerboard.png");
 
-		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Dovah::Timestep ts) override
@@ -166,14 +163,15 @@ public:
 		}
 
 		m_Texture2D->Bind();
-		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->UploadUniformFloat4("u_Color", m_QuadColor0);
-	    Dovah::Renderer::Submit(m_TextureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		auto textureShader = m_ShaderLibrary.Get("Texture");
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(textureShader)->UploadUniformFloat4("u_Color", m_QuadColor0);
+	    Dovah::Renderer::Submit(textureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		m_Texture2D->Bind();
-		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Dovah::OpenGLShader>(m_TextureShader)->UploadUniformFloat4("u_Color", m_QuadColor1);
-		Dovah::Renderer::Submit(m_TextureShader, m_VertexArray, glm::translate(glm::mat4(1.0f), glm::vec3(0.5f))  * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Dovah::OpenGLShader>(textureShader)->UploadUniformFloat4("u_Color", m_QuadColor1);
+		Dovah::Renderer::Submit(textureShader, m_VertexArray, glm::translate(glm::mat4(1.0f), glm::vec3(0.5f))  * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		Dovah::Renderer::EndScene();
 	}
@@ -196,10 +194,11 @@ public:
 	}
 
 private:
+	Dovah::ShaderLibrary m_ShaderLibrary;
 	Dovah::Ref<Dovah::VertexArray> m_VertexArray;
 	Dovah::Ref<Dovah::VertexArray> m_SquareVA;
 	
-	Dovah::Ref<Dovah::Shader> m_FlatColorShader, m_TextureShader;
+	Dovah::Ref<Dovah::Shader> m_FlatColorShader;
 	Dovah::Ref<Dovah::Texture2D> m_Texture2D;
 
 	Dovah::OrthographicCamera m_Camera;
