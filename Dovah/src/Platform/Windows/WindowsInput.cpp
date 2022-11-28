@@ -3,7 +3,7 @@
 
 
 #include <GLFW/glfw3.h>
-#include "Dovah/Application.h"
+#include "Dovah/Core/Application.h"
 
 namespace Dovah
 {

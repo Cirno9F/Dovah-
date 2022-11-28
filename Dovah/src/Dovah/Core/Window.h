@@ -2,7 +2,7 @@
 
 #include "dovahpch.h"
 
-#include"Dovah/Core.h"
+#include"Dovah/Core/Core.h"
 #include"Dovah/Events/Event.h"
 
 namespace Dovah

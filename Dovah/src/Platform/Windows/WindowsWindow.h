@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Dovah/Window.h"
+#include "Dovah/Core/Window.h"
 #include "Dovah/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>

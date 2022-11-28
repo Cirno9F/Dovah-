@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "Dovah/Core.h"
+#include "Dovah/Core/Core.h"
 
 namespace Dovah
 {

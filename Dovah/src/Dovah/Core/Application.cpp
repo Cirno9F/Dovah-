@@ -1,7 +1,7 @@
 #include "dovahpch.h"
 #include "Application.h"
 
-#include "Dovah/Log.h"
+#include "Dovah/Core/Log.h"
 
 #include <Dovah/Renderer/Renderer.h>
 

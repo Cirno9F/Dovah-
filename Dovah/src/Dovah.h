@@ -2,15 +2,15 @@
 
 //For use by Dovah applications
 
-#include "Dovah/Application.h"
-#include "Dovah/Layer.h"
-#include "Dovah/Log.h"
+#include "Dovah/Core/Application.h"
+#include "Dovah/Core/Layer.h"
+#include "Dovah/Core/Log.h"
 
 #include "Dovah/Core/Timestep.h"
 
-#include "Dovah/Input.h"
-#include "Dovah/MouseButtonCodes.h"
-#include "Dovah/KeyCodes.h"
+#include "Dovah/Core/Input.h"
+#include "Dovah/Core/MouseButtonCodes.h"
+#include "Dovah/Core/KeyCodes.h"
 #include "Dovah/OrthographicCameraController.h"
 
 #include "Dovah/ImGui/ImGuiLayer.h"
@@ -29,5 +29,5 @@
 //-------------------------------------------
 
 //---Entry Point-----------------------------
-#include "Dovah/EntryPoint.h"
+#include "Dovah/Core/EntryPoint.h"
 //-------------------------------------------

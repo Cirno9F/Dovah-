@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Dovah/Log.h"
+#include "Dovah/Core/Log.h"
 
 #ifdef DOVAH_PLATFORM_WINDOWS
 	#include<Windows.h>

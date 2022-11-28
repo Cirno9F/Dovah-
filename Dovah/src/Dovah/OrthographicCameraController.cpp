@@ -1,8 +1,8 @@
 #include "dovahpch.h"
 #include "OrthographicCameraController.h"
 
-#include "Dovah/Input.h"
-#include "Dovah/KeyCodes.h"
+#include "Dovah/Core/Input.h"
+#include "Dovah/Core/KeyCodes.h"
 
 namespace Dovah
 {

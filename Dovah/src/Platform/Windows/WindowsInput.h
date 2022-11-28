@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Dovah/Input.h"
+#include "Dovah/Core/Input.h"
 
 namespace Dovah
 {
