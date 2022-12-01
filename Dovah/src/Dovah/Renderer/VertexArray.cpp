@@ -6,7 +6,7 @@
 
 namespace Dovah
 {
-	VertexArray* VertexArray::Create()
+	Ref<VertexArray> VertexArray::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -14,7 +14,7 @@ namespace Dovah
 			DOVAH_CORE_ASSERT(false, "RenderAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLVertexArray();
+			return std::make_shared<OpenGLVertexArray>();
 		}
 
 		DOVAH_CORE_ASSERT(false, "Unknown RenderAPI");

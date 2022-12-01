@@ -27,7 +27,3 @@
 #include "Dovah/Renderer/OrthographicCamera.h"
 
 //-------------------------------------------
-
-//---Entry Point-----------------------------
-#include "Dovah/Core/EntryPoint.h"
-//-------------------------------------------

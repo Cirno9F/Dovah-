@@ -1,5 +1,9 @@
 #include <Dovah.h>
 
+//---Entry Point-----------------------------
+#include <Dovah/Core/EntryPoint.h>
+//-------------------------------------------
+
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include "imgui/imgui.h"
@@ -7,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm/gtc/type_ptr.hpp"
 
+#include "Sandbox2D.h"
 class ExampleLayer :public Dovah::Layer
 {
 public:
@@ -14,7 +19,7 @@ public:
 		:Layer("Example"), m_CameraController(1280.0f/720.f, true)
 	{
 		//Quad
-		m_VertexArray.reset(Dovah::VertexArray::Create());
+		m_VertexArray = Dovah::VertexArray::Create();
 		float vertices[4 * 5] = {
 			-0.5f,-0.5f,0.0f, 0.0f,0.0f,
 			 0.5f,-0.5f,0.0f, 1.0f,0.0f,
@@ -37,7 +42,7 @@ public:
 
 
 		//square
-		m_SquareVA.reset(Dovah::VertexArray::Create());
+		m_SquareVA = Dovah::VertexArray::Create();
 		float squareVertices[4 * 7] = {
 			-0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
 			 0.5f,-0.5f,0.0f, 0.2f,0.3f,0.8f,1.0f,
@@ -192,7 +197,8 @@ public:
 	Sandbox() 
 		:Application()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 	~Sandbox() {}
 };
