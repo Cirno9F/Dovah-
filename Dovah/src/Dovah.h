@@ -17,6 +17,7 @@
 
 //---Renderer-------------------------------
 #include "Dovah/Renderer/Renderer.h"
+#include "Dovah/Renderer/Renderer2D.h"
 #include "Dovah/Renderer/RenderCommand.h"
 
 #include "Dovah/Renderer/Shader.h"
