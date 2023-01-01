@@ -66,7 +66,7 @@ namespace Dovah
 	{
 		static bool show = true;
 
-		ImGui::ShowDemoWindow();
+		//ImGui::ShowDemoWindow();
 	}
 
 	void ImGuiLayer::Begin()
