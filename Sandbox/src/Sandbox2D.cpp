@@ -13,7 +13,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-
+	m_CheckerboardTexture = Dovah::Texture2D::Create("assets/textures/Checkerboard.png");
 }
 
 void Sandbox2D::OnDetach()
@@ -33,6 +33,7 @@ void Sandbox2D::OnUpdate(Dovah::Timestep ts)
 
 	Dovah::Renderer2D::DrawQuad(glm::vec2{ 0.0f, 1.0f }, glm::vec2{ 1.0f, 2.0f }, glm::vec4{ 0.8f,0.2f,0.3f,1.0f });
 	Dovah::Renderer2D::DrawQuad(glm::vec2{ 1.0f, 0.0f }, glm::vec2{ 1.0f, 0.5f }, glm::vec4{ 0.2f,0.3f,0.8f,1.0f });
+	Dovah::Renderer2D::DrawQuad(glm::vec3{ 0.0f, 0.0f, -0.1f }, glm::vec2{ 10.0f, 10.0f }, m_CheckerboardTexture);
 	Dovah::Renderer2D::EndScene();
 }
 

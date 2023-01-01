@@ -17,9 +17,7 @@ public:
 private:
 	Dovah::OrthographicCameraController m_CameraController;
 
-	//Temp
-	Dovah::Ref<Dovah::VertexArray> m_SquareVA;
-	Dovah::Ref<Dovah::Shader> m_FlatColorShader;
+	Dovah::Ref<Dovah::Texture2D> m_CheckerboardTexture;
 
 	glm::vec4 m_SquareColor = glm::vec4(0.2f, 0.3f, 0.8f, 1.0f);
 };
