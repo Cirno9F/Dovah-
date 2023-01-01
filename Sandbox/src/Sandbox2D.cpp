@@ -32,6 +32,7 @@ void Sandbox2D::OnUpdate(Dovah::Timestep ts)
 	Dovah::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
 	Dovah::Renderer2D::DrawQuad(glm::vec2{ 0.0f, 1.0f }, glm::vec2{ 1.0f, 2.0f }, glm::vec4{ 0.8f,0.2f,0.3f,1.0f });
+	Dovah::Renderer2D::DrawQuad(glm::vec2{ 1.0f, 0.0f }, glm::vec2{ 1.0f, 0.5f }, glm::vec4{ 0.2f,0.3f,0.8f,1.0f });
 	Dovah::Renderer2D::EndScene();
 }
 
