@@ -52,7 +52,7 @@ namespace Dovah
 
 		s_Data->WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t color = 0xffffffff;
-		s_Data->WhiteTexture->SetData(&color, 4);
+		s_Data->WhiteTexture->SetData(&color, sizeof(uint32_t));
 	}
 
 	void Renderer2D::Shutdown()
@@ -78,7 +78,6 @@ namespace Dovah
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		s_Data->TextureShader->Bind();
-
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 		s_Data->TextureShader->SetMat4("u_Transform",
 			glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f)));
